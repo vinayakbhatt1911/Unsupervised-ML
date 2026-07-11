@@ -1,0 +1,104 @@
+"""Question
+
+Cell Type Clustering using K-Means Clustering
+Problem Statement
+
+A biotechnology laboratory has collected measurements from different cells based on the following features:
+
+Cell Size (µm)
+Nucleus Size (µm)
+
+The laboratory does not know the actual type of each cell. Use the K-Means Clustering algorithm to automatically group similar cells into 2 clusters based on their characteristics.
+
+After training the model:
+
+Display the cluster labels for all cell samples.
+Display the cluster centroids.
+Display the WCSS (Inertia).
+Ask the user to enter the Cell Size and Nucleus Size of a new cell.
+Predict the cluster to which the new cell belongs.
+Visualize the training data, centroids, and the user sample using Matplotlib."""
+
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+data = [
+    [18, 6],
+    [20, 7],
+    [19, 6],
+    [21, 7],
+    [45, 15],
+    [48, 16],
+    [50, 17],
+    [46, 15],
+    [22, 8],
+    [47, 16]
+]
+
+# HYPERPARAMETER
+model=KMeans(
+    n_clusters=2,
+    random_state=5,
+    n_init=10
+)
+
+model.fit(data)
+print("\n Model Cluster Labels:")
+print(model.labels_)
+print("\nModel Clusters Centers:")
+print(model.cluster_centers_)
+print("\nMininum WCSS (Inertia)")
+print(model.inertia_)
+
+
+print("Enter new sample")
+cell_size=float(input("Enter Cell Size:"))
+nucleus_size=float(input("Enter Nucleus Size:"))
+sample=[[cell_size,nucleus_size]]
+
+
+prediction=model.predict(sample)
+
+
+print("\n Prediction Result:")
+print(f"This sample belongs to Cluster {prediction[0]}")
+
+
+#Plot data points 
+plt.scatter(
+    [row[0] for row in data],
+    [row[1] for row in data],
+    c=model.labels_,
+    cmap="viridis",
+    s=70,
+    label="Data Points"
+
+)
+
+#Plot Centroids
+plt.scatter(
+        model.cluster_centers_[:,0],
+        model.cluster_centers_[:,1],
+        marker="X",
+        color="red",
+        s=180,
+        label="Centroids"
+)
+
+#Plot sample
+plt.scatter(
+    sample[0][0],
+    sample[0][1],
+    marker="*",
+    color="black",
+    s=180,
+    label="User Sample"
+)
+
+plt.xlabel("Cell Size (µm)")
+plt.ylabel("Nucleus Size (µm)")
+plt.title("Cell Type Clustering Using K-Means")
+plt.grid(True)
+plt.legend()
+
+plt.show()
