@@ -1,0 +1,55 @@
+"""Question: Microbial Species Clustering using Hierarchical Clustering
+Problem Statement
+
+A microbiology laboratory has collected measurements from different microbial samples based on the following features:
+
+Cell Size (µm)
+Growth Rate (mm/day)
+
+The actual species of the microorganisms are unknown. Use the Hierarchical Clustering (Agglomerative Clustering) algorithm to automatically group similar microbial samples into 2 clusters based on their characteristics.
+
+After clustering the data:
+
+Display the cluster labels for all microbial samples.
+Visualize the clustered microbial samples using Matplotlib.
+Display a Dendrogram to show how the microbial samples are merged during the hierarchical clustering process"""
+
+from sklearn.cluster import  AgglomerativeClustering
+import matplotlib.pyplot as plt
+from scipy.cluster.hierarchy import dendrogram,linkage
+data = [
+    [2.1, 1.8],
+    [2.4, 2.0],
+    [2.2, 1.9],
+    [2.5, 2.1],
+    [7.8, 8.5],
+    [8.2, 8.8],
+    [7.9, 8.3],
+    [8.4, 9.0],
+    [2.3, 2.2],
+    [8.1, 8.6]
+]
+
+model=AgglomerativeClustering(
+    n_clusters=2,
+    linkage="ward" # Linkage tells which 2 clusters are to be measured 
+    
+)
+model.fit(data)
+print("\n Model cluster Labels:")
+print(model.n_clusters_)
+print("\n Model Labels:")
+print(model.labels_)
+
+
+linked=linkage(data,method="ward")
+
+plt.figure(figsize=(8,5))
+
+dendrogram(linked)
+
+plt.title("Hierarchical Clustering Dendrogram")
+plt.xlabel("Microbial Samples")
+plt.ylabel("Distance")
+
+plt.show()
