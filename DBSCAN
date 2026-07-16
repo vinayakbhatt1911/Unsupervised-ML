@@ -1,0 +1,63 @@
+"""Mini Project
+Question: Bacterial Colony Clustering using DBSCAN
+Problem Statement
+
+A microbiology laboratory has collected measurements from different bacterial colonies based on the following features:
+
+Colony Diameter (mm)
+Growth Rate (mm/day)
+
+The laboratory wants to identify groups of similar bacterial colonies and automatically detect abnormal colonies (outliers).
+Use the DBSCAN algorithm to cluster the bacterial colonies based on their density. 
+Display the cluster labels and visualize the clusters using Matplotlib. 
+Highlight any detected outliers (noise) in the graph."""
+
+
+from sklearn.cluster import DBSCAN
+import matplotlib.pyplot as plt
+
+# Dataset
+data = [
+    [2.0, 1.8],
+    [2.2, 2.0],
+    [2.1, 1.9],
+    [2.3, 2.2],
+    [7.8, 8.0],
+    [8.0, 8.3],
+    [8.2, 8.1],
+    [7.9, 8.4],
+    [15.0, 2.0]
+]
+
+# Model
+model = DBSCAN(
+    eps=2,
+    min_samples=2
+)
+
+# Train Model
+model.fit(data)
+
+# Print Labels
+print("Model Cluster Labels:")
+print(model.labels_)
+
+# Scatter Plot
+plt.scatter(
+    [row[0] for row in data],
+    [row[1] for row in data],
+    c=model.labels_,
+    cmap="viridis",
+    s=70,
+    label="Bacterial Colonies"
+)
+
+# Graph Details
+plt.title("Bacterial Colony Clustering using DBSCAN")
+plt.xlabel("Colony Diameter (mm)")
+plt.ylabel("Growth Rate (mm/day)")
+plt.grid(True)
+plt.legend()
+
+# Display Graph
+plt.show()
